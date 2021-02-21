@@ -1,0 +1,7 @@
+The size of the filter barely affects the blending. That's because if we 
+look separately at the parts of the two images, at each step we always add
+the layers of im1 and im2 on top of themselves respectively. So each part
+follows the formula we saw in class that explains why when we add the
+laplacian pyramid layers together we get the original image. That formula
+works regardless of the size of the gaussian filter, which is why changing it
+doesn't matter.

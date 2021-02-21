@@ -1,0 +1,1 @@
+The SR corruption function simply takes an image and zooms out then zooms in. We set the order (i.e. the degree of the polynomial for interpolation) to be 0 in order to achieve a very basic interpolation, because if we raise the degree we might achieve a more accurate (and less blurry) depiction of the original image. . 

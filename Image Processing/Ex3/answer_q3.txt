@@ -1,0 +1,3 @@
+The higher the number of pyramid levels, the more seemles the blending 
+appears. That happens because when we reach the higher levels the resolution 
+becomes very small.

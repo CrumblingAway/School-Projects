@@ -1,0 +1,4 @@
+The difference between the magnitudes is the result of the shift in the 
+convolution, since we don't calculate the difference between two adjacent
+pixels but rather two pixels separated by a third pixel. As such the result
+given by the Fourier transform is more accurate.

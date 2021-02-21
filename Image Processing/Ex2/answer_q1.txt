@@ -1,0 +1,5 @@
+The difference between change_rate and change_samples stems from the fact
+that in change_rate the frequencies become higher due to more frequent
+sampling. On the other hand in change_samples we take into account the
+frequencies and adjust accordingly, as such the output does not sound high
+pitched.

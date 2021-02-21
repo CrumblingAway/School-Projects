@@ -1,0 +1,7 @@
+Each level can be thought of as a ring pass filter, as such it contains a 
+certain range of frequencies. The higher the pyramid layer the lower the 
+frequency range. If we choose to add more of one range, the result will have 
+a stronger emphasis on that range of frequencies. 
+For example: if we multiply the lower levels (higher frequencies close to the
+base) by higher values than the top of the pyramid we will get more accented
+edges in the result.

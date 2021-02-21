@@ -1,0 +1,7 @@
+The difference between the functions is as stated in the documentation, that 
+resize_vocoder fixes the phase shift unlike resize_spectrogram. When we apply
+STFT on the spectrogram we change the frequencies in each window individually,
+then when we apply ISTFT the windows are already changed and the phases of the
+frequencies are shifted. The result is that in resize_spectrogram some of the
+frequencies cancel out (or otherwise change the output), while resize_vocoder
+takes the phase into account.
