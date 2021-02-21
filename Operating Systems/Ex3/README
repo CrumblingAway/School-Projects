@@ -1,0 +1,30 @@
+tom_nahum, kublakhan
+Student Tom Nahum (316240985), Anton Loubman (321123788)
+EX: 3
+
+FILES:
+MapReduceFramework.cpp - Our implementation of the library.
+Barrier.cpp - The supplied barrier. 
+Barrier.h
+makefile
+
+REMARKS:
+
+ANSWERS:
+
+Question 1:
+The optimal number of kernel level threads will be 1. foo is CPU bound, so
+in that case, adding threads will only make the running time slower.
+
+Question 2:
+    a. The number of lines that will be printed is 2n.
+       Because each thread creates a new process by fork, and as a result each thread will print twice.  
+    b. The number of different orders of  the lines is n!*n!.
+       First of all, the execution of the threads is not deterministic, 
+       so there are n! options of the order of the execution of the threads. 
+       Secondly, the order of the threads exiting the barrier is not deterministic, 
+       so there are n! options of the order the threads exiting the barrier. 
+       In total we get n!*n! options.
+
+
+

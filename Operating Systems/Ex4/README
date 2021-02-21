@@ -1,0 +1,19 @@
+tom_nahum, kublakhan
+Student Tom Nahum (316240985), Anton Loubman (321123788)
+EX: 4
+
+FILES:
+VirtualMemory.cpp - Our implementation of the library.
+makefile
+
+REMARKS:
+In this exercise we implemented a library for managing virtual memory. 
+The algorithm is based on hierarchical page tables, represented as a tree of tables.
+The main part of the exercise was to create an algorithm for finding an appropriate frame for a given page.
+We used recursion for traversing the tree and finding the relevant frame.
+Then we stored the page in that frame. This process created the mapping between frames and pages.   
+
+ANSWERS:
+
+
+

@@ -1,0 +1,24 @@
+tom_nahum, kublakhan
+Student Tom Nahum (316240985), Anton Loubman (321123788)
+EX: 1
+
+FILES:
+osm.cpp -- The implamantation of the osm library.
+Data Table.jpeg -- An excel table with the data from the different machines.  
+makefile
+
+REMARKS:
+
+ANSWERS:
+
+Assignment 1:
+The programm expects to get 1 argument, and then does as follows:
+- Opens directory named "Welcome"
+- Opens directory named "To" inside Welcome
+- Opens file named "OS2020" inside To
+- Writes to the file: "<user>\nIf you haven't read the course guidelines yet --- do it right now!"
+- Closes OS2020
+- Deletes (unlinks) OS2020
+- Removes the directory "Welcome/To"
+- Removes the directory "Welcome"
+- If the number of arguments != 1, error is printed to the screen.

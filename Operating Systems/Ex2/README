@@ -1,0 +1,39 @@
+tom_nahum, kublakhan
+Student Tom Nahum (316240985), Anton Loubman (321123788)
+EX: 2
+
+FILES:
+osm.cpp -- The implamantation of the osm library.
+Data Table.jpeg -- An excel table with the data from the different machines.  
+makefile
+
+REMARKS:
+
+ANSWERS:
+
+Quesiton 1:
+One general use of user level threads are servers. Suppose we have multiple customrs simultaneously
+(a server with many users), if we try to access data on the server then this action may take some time, 
+but if we operate on multiple thread we can manage our time more efficiently and while one thread waits
+to access the data, we can activate other threads so they aren't as affected by the downtime.
+
+Question 2:
+Advantages: 
+* Processes are protected from each other, unlike kernel level threads that share resources.
+
+Disatvangaes:
+* Processes require the OS to intercommunicate, unlike kernel level threads that live in the same
+address space and as such don't require system calls for communication.
+* Processes have higher overhead than kernel level threads.
+
+Question 3:
+Interrupts involved during command execution:
+* Keyboard interrupt by typing kill command in the shell. 
+* The Operating system handles this interrupt by sending SIGKILL signal to the Shotwell process. 
+* This signal terminates that process. 
+
+Question 4:
+Real time is the time in the real-world, for example 8:00. Virtual time is time relative to a specific process. 
+Virtual time for a process starts when the process starts running, and continues only when the process runs.
+For example, in moodle, after some time of inactivity, we get a message that says we have to reconnect. 
+That event take place relative to moodle's process virtual time. 
