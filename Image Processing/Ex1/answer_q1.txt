@@ -1,0 +1,5 @@
+Q1 Answer:
+If a division has a gray level with no pixels, that means that there is a segment [z_i, z_i+1) s.t. for every g in
+said segment h(g) = 0, where h is the histogram of the original image. That means that when we calculate q_i, the
+quantized gray level for the segment, the denominator will be the sum of h(g) for every g in the segment, and because
+h(g) = 0 for every g we'll get that the denominator is 0. Since we can't divide by 0 the algorithm will crash.
