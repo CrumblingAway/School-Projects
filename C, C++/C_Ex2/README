@@ -1,0 +1,86 @@
+c_ex2
+kublakhan
+321123788
+######
+
+Goal: read data from file and construct the appropriate graph.
+Then if it's a tree, print out the following:
+Root, vertices amount, edges amount, longest branch, shortest branch,
+diameter length, and shortest path between two given vertices.
+
+===============================
+Step One: Verifying Valid Input
+===============================
+The program accepts arguments from the command line. The arguments are:
+1) File path.
+2) Start vertex.
+3) End vertex.
+
+In addition the int variable argc is generated, representing the amount
+of arguments that have been input by the user PLUS the name of the file
+(in this case TreeAnalyzer.c).
+We begin by verifying that the file path is valid by assigning a pointer
+to the file and checking if it's NULL. Then we check if the vertices fall
+within the range of the file (i.e. non-negative and at most are number of
+lines in the file minus two).
+
+Then we go over the file to check if all the lines are valid representations
+of data for a graph.
+
+============================
+Step Two: Creating the Graph
+============================
+Now that we've made sure the arguments are valid, we can begin to create
+the graph. In order for that I created two structs:
+1) Vertex.
+2) Graph.
+
+Initially I'd wanted to create an Edge struct too, but I ended up not using
+it so I scraped it.
+Vertex makes up the graph, and it stores a lot of information, namely its ID
+(a number) and two Vertex pointers that will later point to an array of
+Vertices, one for its parents in the graph and one for its children.
+Vertices are created using the newVertex function, which accepts an int
+argument that will serve as the Vertex' ID. It also allocates ten cells of
+size Vertex to the parent/child arrays.
+Graph has a Vertex pointer that points to an array of the Vertices that
+make it up, among other things.
+
+THe process of creating the graph is as follows:
+1) First line: here appears the amount of vertices in the graph, so here
+is where we allocate to the Vertex pointer enough memory to store the amount
+of Vertices described by this line. We fill it with a junk Vertex with the ID
+value of -1 to have more control over the array.
+2) Other lines: we go over the line and add the Vertices in the line to
+the graph's array. At the same time we add pointers of the vertices in the
+line to the children array in the Vertex whose ID is the number of the line
+we are currently at.
+
+===================================
+Step Three: Making Sure it's a Tree
+===================================
+First of all we check whether or not |E| = |V| - 1.
+Second we count all the vertices that have no parents in the graph. If
+there are more than one, it's not a tree.
+Third we use the explore function to start from the root of the graph,
+which by now we will have found out. If afterwards any vertex remains
+unvisited, that means the graph is not connected, and such is not a tree.
+If all those checks pass accordingly, that would mean the graph was a tree.
+
+============================
+Step Four: Printing the Data
+============================
+We first convert the graph to a non-directed graph by going over all vertices
+and their children, and setting the parents as the childrens' child and vice versa.
+Then it's just a matter of running BFS to calculate our results.
+By now we already know how many vertices there are as that amount has been
+saved in the Graph struct, as well as the root. The edges have already been
+calculated when verifying |E| = |V| - 1. Now we run BFS from the root and
+take the lowest/highest value dist. from the vertices.
+To find the diameter we simply run BFS from every single vertex and save
+To find the path between the two given vertices we can run BFS from the start
+vertex and then simply recreate the path by going from the finish vertex to
+its prev, and then to its prev, and so on until we get to the start vertex.
+
+
+

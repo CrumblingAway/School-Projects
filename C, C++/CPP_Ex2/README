@@ -1,0 +1,21 @@
+cpp_ex2
+kublakhan
+321123788
+######
+
+Description:
+
+I decided to create three classes that derive from Fractal, each representing 
+the different fractal pattern. Fractal itself is not an abstract class, because 
+it does not have any methods. Instead it declares an overload of the << operator, 
+which contains the algorithm for drawing the fractal of a given dimension.
+
+The patterns are stored individually in every derived class, as well as the size
+of the pattern (for a 3x3 pattern the size is 3, not 9) and the dimension of the 
+fractal.
+
+In Fractal I also implemented the static method fractalFactory, which is responsible
+for creating the appropriate fractal.
+
+In addition I also implemented the rule of five in the Fractal class.
+

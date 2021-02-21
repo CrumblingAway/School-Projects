@@ -1,0 +1,24 @@
+cpp_ex3
+kublakhan
+321123788
+######
+
+Description:
+
+In this exercise we wrote a HashMap class and program that uses it to check if
+an email is spam or not.
+
+HashMap: most implementations are straightforward. To store the keys and values 
+I use a dynammically allocated array of vectors of pairs. For the insert and erase 
+methods I've written a helper function resize(), which uses its resize factor 
+argument to either shrink or expand the HashMap storage.
+The iterator is a const forward iterator. The iterator returned by begin() is 
+the first encountered pair in the storage vectors going from 0 to capacity. The
+iteration is done using the iterators of the vectors. The ++ operator simply
+increments the vector iterator, and if we've reached the end of the vector we 
+simply move on to the next vector.
+
+SpamDetector: mostly straightforward parsing just like we've done in previous
+exercises. The looking up of words from the mail in the database is done with two 
+while loops. Doing so allows us to find phrases that are made up of more than one 
+word. 

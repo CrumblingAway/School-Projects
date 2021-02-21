@@ -1,0 +1,56 @@
+cpp_ex1
+kublakhan
+321123788
+######
+
+In this exercise we wrote a program that performs operations on 
+numbers over a Galois field. The operations are:
+* + addition
+* - subtraction
+* * multiplication
+* = placement
+* ==, >, >=, <, <= comparisons
+* >>, << input/output
+* factorization
+
+======
+GField
+======
+This object represents the Galois field which we are using.
+GField.h is the header that contains the blueprint for the class
+as well as a forward declaration for the GFNumber class.
+GField.cpp contains the actual implementation of the class.
+
+========
+GFNumber
+========
+Thie object represents the numbers in the GField.
+GFNumber.h is the header file that contains the blueprint for the
+class, a forward declaration for GField and some helper functions
+fot its methods.
+GFNumber.cpp contains the actual implementation of the class.
+
+========================
+IntegerFactorization.cpp
+========================
+The file containing the main function that runs the program.
+
+===============
+Implementations
+===============
+Most of the implementation is straightforward. All relevant operators
+are overloaded and perform the expected action (i.e. + adds two 
+GFNumbers together). 
+All the necessary constructors have been defined to allow, among
+other things, the use of our objects as arguments in a function or 
+simply declaring an object.
+The static isPrime method in GField checks if a number is prime in
+O(sqrt(n)) time, because it only checks up to and including the floor
+of the square root of the number for divisibility.
+In GFNumber, in addition to the specified methods I've also written
+resize(), negativeModulo() and getRho(). resize() expands a given
+array to allow for more prime factors to be added, negativeModulo()
+gets the positive value of a negative integer in a given field, and 
+getRho() uses Pollard's Rho algorithm to find a number that divides
+into a given number.
+

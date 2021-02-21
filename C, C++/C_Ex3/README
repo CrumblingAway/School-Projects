@@ -1,0 +1,34 @@
+c_ex3
+kublakhan
+321123788
+######
+
+=======
+infi.h:
+=======
+Header file containing the declerations of two functions, one for
+calculating the integral and one for the derivative.
+
+======
+infi.c
+======
+File containing the actual implementation of the functions. Each
+function receives arguments and checks that arguments are valid (using assert),
+i.e. that the integral/derivative can be calculated using the arguments.
+
+=========
+libinfi.a
+=========
+Library containing only infi.c and infi.h.
+
+===================
+NumericalAnalyzer.c
+===================
+The program that contains the main function. It also contains a few
+helper functions for parsing and input verification, as well as the
+actual six functions our program is required to support.
+
+In order to be able to use the funtions form infi.c, infi.h is #included
+in NuemricalAnalyzer.c and in the linking stage of building the
+executable file we link the library to NumericalAnalyzer.o.
+The actual building instructions of the program are written in the makefile.
