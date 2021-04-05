@@ -1,0 +1,183 @@
+kublakhan
+
+=============================
+=      File description     =
+=============================
+
+* filesprocessing
+	- DirectoryProcessor.java
+	- FileParser.java
+	- Section.java
+	- TypeOneException.java
+	- TypeTwoException.java
+	* filters
+		- All the filters
+	* orders
+		- All the orders
+		
+filesprocessing is the main package in which all the other packages and
+classes are contained.
+DirectoryProcessor contains the main method that actaully runs the 
+program.
+filters contains the filters, orders the orders. Each contains a factory
+for filters/orders respectively as well.
+FileParser goes over the command file and creates an ArrayList of 
+Section objects that represent a section of the file and contain a 
+filter, order and errors (if any).	
+TypeOneException and TypeTwoException are simply the exceptions thrown
+during runtime.
+
+=============================
+=          Design           =
+=============================
+
+Filters
+-------
+- I chose to create a Filter interface which would be implemented by all
+filters. That way when the need arose to deal with a method in a way 
+that was applicable to all filters I could simply refer to the 
+interface. It only contains the filter method, which obviously has to 
+be implemented by all the filters. 
+
+- BoundFilter is an abstract blass and is inherited by GreaterFilter and
+SmallerFilter. I ended up not needing to access it specifically, but it 
+was more conceptually more comfortable to have them grouped together as
+such and have it contain the fields bound (to which I'd compare the size
+of the file) and RATIO (which I'd use to convert bytes to k-bytes).
+
+Said subclasses receive the aforementioned bound and use filter to 
+filter out files that don't match their requirement for it.
+
+- BetweenFilter is one of two filters that stand alone unlike all the 
+other filters (that extend a certain parent class). It receives an upper 
+and lower bound and filters out any file the size of which falls outside 
+the range of its bounds.
+
+-NotFilter is a decorator that hold an instance of whatever filter is 
+needed. It returns the opposite value of what said instance would return
+when filtering files. 
+
+- StringFilter is inherited by Suffix/Prefix/File/ContainsFilter. It 
+only contains the String field part, which is used by every said filter
+for filtering. 
+
+Each filter receives said String in its constructor.
+
+- YesNoFilter is inherited by Writable/Executable/HiddenFilter. It 
+contains the magic numbers representing "YES"/"NO" to determine what 
+kind of filtering we need. The condition of yes/no is stored within
+the String field cond, which is also inherited by the filters. 
+
+- FilterFactory is used to create any specific filter. The idea is that
+obviously it's more comfortable to have a single class that can create
+any sort of filter, rather than having to individually access the 
+constructor of a specific filter. That way we avoid having to regulate
+how many arguments we have to supply, among other complications. It
+contains magic numbers that match all legal filters.
+
+Orders
+------
+- Order is an abstract class which is inherited by all orders. It 
+contains the actual sorting algorithm as a nested class that is used by 
+all of its subclasses. It also contains the method sort as it is 
+exactly the same in all order classes.
+
+The Order classes differ only by their implementation of Order's
+abstract itemCompare method, which functions exactly like a comparator.
+Every class implements it according to their need: size compares file
+sizes, abs the absolute path, file the file name and reverse decorates
+the others by returning the opposite of whatever order is needed.
+
+Exceptions
+----------
+The exception classes themselves don't consist of much. TypeTwoException
+receives an informative message that is printed when it is caught. Other
+than that the difference comes from how the exeptions are handled when
+caught. Only FileParser throws TypeTwoException because it is 
+encountereed when checking the file for errors while creating the 
+Section objects. Its only "treatment" is printing the message.
+
+TypeOneException is handled by printing "Warning in line X" and creating
+the dafault filter/order.
+
+Section
+-------
+A Section objects represents a section in the command file. They are 
+created when going over the file with FileParser.
+
+A Section object consists of a Filter and Order objects that are 
+determined when going over the appropriate lines in the cmd file. 
+It also contains the errors that were thrown when going over the lines 
+in cmd file from which the Section object was created. That way when
+eventually going over the directory with each section it's very easy
+to print the errors followed by the sorted list of files (because they 
+are all linked to the same Section object).
+
+FileParser
+----------
+A FileParser object is used to go read a file. It then uses its
+parseToArray method to create an array of Section objects corresponding
+to the file it read. This method is the one that detects program
+crashing errors and throws a TypeTwoException. 
+
+When creating a Section object it keeps track of the line it's on. A 
+section consists of either 3 or 4 lines, while maintaining that line 1
+is "FILTER", line 2 describes a filter and line 3 is "ORDER". Line 4, if
+it appears, describes an order.
+
+DirectoryProcessor
+------------------
+This class contains the main method that receives the directory and the
+cmd file as arguments and runs the program. It also contains the method
+createFileArray that creates an array of File objects that appear in 
+the given directory and is later filtered and sorted. 
+
+
+=============================
+=  Implementation details   =
+=============================
+Filters: I chose to create a class for every filter and have them 
+implement an interface to have a way to comfortably address them all if
+need be. 
+
+Orders: in my opinion the orders are much more similar to each other 
+unlike filters, so I used an abstract class that already contains two
+fully implemented methods they can all use.
+
+I tried to have both the filters and orders as simply as possible 
+and keep any complexities in either the factory, which I also tried to
+keep as simple as I could, or DirectoryProcessor/FileParser.
+
+I also didn't have the filters/orders themselves throw any exceptions.
+Filters/orders assume the input the receive for their constructor is 
+completely valid, all checking is done beforehand. 
+
+The factories do a lot of the checking, but they also assume that they
+receive a String[] object as input, without the hashtags. They check
+for the actual validity of every seperate String, such as the name,
+parameters and "NOT"/"REVERSE".
+
+Section I've also kept simple. It only contains the objects described
+by the cmd file while the actual filter/sorting/error printing is done
+outside of it.
+
+FileParser has a lot of code but the idea is not complicated. It goes 
+over the cmd file, creates the corresponding sections and returns an 
+array of Section objects. This class is the one that throws the 
+TypeTwoExceptions because it's the only one that can since it's the one
+that goes over the cmd file.
+It also catches the TypeOneExceptions to store the line number of the 
+error in the sections.
+
+DirectoryProcessor finally catches any TypeTwoExceptions which then
+crash the program. If no such exceptions are caught then it means the
+cmd file was valid and it proceeds to print whatever the result of the
+filtering and ordering is. 
+
+
+
+
+
+
+
+

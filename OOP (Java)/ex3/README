@@ -1,0 +1,133 @@
+kublakhan
+
+=============================
+=      File description     =
+=============================
+
+Non-Test files:
+
+1) Locker.java (class)
+
+2) LongTermStorage.java (class)
+
+3) Storable.java (interface)
+
+4) BoopingSite.java (class)
+
+5) ProximityComparator.java (class, Comparator)
+
+6) StarComparator.java (class, Comparator)
+
+Test files:
+
+1) LockerTest.java
+
+2) LongTermTest.java
+
+3) SpaceshipDepositoryTest.java
+
+4) BoopingSiteTest.java 
+
+=============================
+=          Design           =
+=============================
+
+Non-Test
+
+- Locker, LongTermStorage and Storable:
+
+*Storable: both Locker and LongTermStorage have a lot of overlap in 
+their methods. I couldn't decide between an abstract class and an 
+interface so I decided to make an interface containing the methods in 
+the overlap. 
+
+*Locker:
+First thing I added the capacity (int) field, as the constructor for the
+class specifies a capacity field. 
+
+Next I imported ArrayList so I could actually store items. I chose it 
+over the regular Item[] array because ArrayList grows dynamically with 
+its added items, unlike Item[] which has a fixed size which cannot be 
+changed. 
+
+The first methods I wrote were getCapacity, getAvailableCapacity, 
+getItemCount and getInventory, as they were the simpler ones. getCapcity
+simply returns this.capacity, getAvailableCapacity calculates the 
+remaining space by substracting the occupied space from the capacity, 
+getItemCount simply iterates over the ArrayList containing the items
+with a counter, and getInventory creates a HashMap<String, Integer> by
+adding item types as keys, and if the type already appears in the map
+it adjusts the value of the key.
+
+addItem and removeItem were more complicated:
+*removeItem: checks for a negative n, item count, and if hasn't failed 
+those checks removes n items.
+*addItem: as specified, the first check was for the football/baseball 
+bat contradiction. To avoid having to look through the ArrayList twice 
+for each type I used getInventory and checked for each type if the 
+other one appears as a key in the map. Next I checked whether or not 
+enough space in the locker for those n items. If that passed it then 
+checked if the new amount would exceed 50% capacity, in which case the
+program would check whether the LongTermStorage could contain the 
+excess. At this point I realized I should create a static 
+LongTermStorage field for the lockers for it to be centralized. Should 
+that test pass I would the program would then calculate the amount that
+would take up to 20% capacity and either add items to the locker because
+the original item count was less than 20% or substract items until the
+amount reached 20%. The rest would be moved to storage.
+On the other hand if the new amount of items did not exceed 50% it 
+simply adds the items.
+
+*LongTermStorage: 
+On to LongTermStorage. The capacity is set at 1000 for any case, so 
+even though the constructor does not accept a parameter I simply 
+initiated this.capacity to be 1000 by default. The actual storing of the 
+items is done just like in Locker, using ArrayList. Again I took care of
+the methods in the same order like in Locker. The resetInventory method
+first checks if the array is already empty or not. If not then while the
+array's size is greater than 0 it removes the first item. This way each 
+step the first element is removed and all the other elements are moved
+up an index, rinse repeat. addItem was not as complicated as Locker's
+because there were much less limitations. I basically only needed to 
+check for a negative n and enough space.
+
+- BoopingSite and comparators:
+
+*StarComparator: 
+I overrode the compare method to first compare two hotels based on 
+their star rating. Should hotel2's rating be higher than hotel1's it 
+would simply return the result of hotel2's rating minus hotel1's 
+(because we want them in descending order of rating rather than 
+ascending). In case the ratings are the same and the result of the
+subtraction is 0 it would then compare between their names and order 
+them alphabetically. That way the hotels are sorted by rating and the 
+ones with the same rating are sorted alphabetically. 
+
+*ProximityComparator: 
+I added a constructor that accepts longitude and latitude parameters.
+I also created the method getDistance to get the distance of the two 
+hotels from the given coordinates. It was initially inside the compare
+method but I ended up needing it for testing so I had to create it 
+separately. The compare method first compares the distances of the two
+hotels to the coordinates, then if they are equal it compares the 
+points of interest, achieving the same effect as in StarComparator. 
+
+*BoopingSite: 
+In the constructor I first set this.name to equal the given file name.
+Then, also in the constructor, I initialized Hotel[] by invoking  
+HotelDataset's getHotels method. 
+Seeing as we were supposed to utilize Collections.sort and it doesn't 
+work on Hotel[] I had to create the makeHotelArrayList to convert the
+array into an ArrayList which I could then sort. To turn it back I 
+made the makeNormalHotelArray because I had some problems with the
+toArray method of ArrayList. With that out of the way the getHotels*
+methods were created almost identically. First I created the ArrayList
+of hotels, if I needed to filter out based on a city I used the 
+filterByCity method and only then sorted the remaining hotels. Finally
+I turned the ArrayList back into a Hotel[].
+
+=============================
+=  Implementation details   =
+=============================
+
+

@@ -1,0 +1,51 @@
+kublakhan
+
+=============================
+=      File description     =
+=============================
+1) Book.java
+
+The class defining the books, can be stored in the library class.
+
+2) Patron.java
+
+The class defining the patrons, can be registered in the library class.
+
+3) Library.java
+
+The class defining the library. Makes use of the Book and Patron class,
+gives the option of borrowing or returning books and registering 
+patrons.
+
+=============================
+=          Design           =
+=============================
+Book: mostly followed the course instructions. Added a field bookId(int)
+and the methods setBookId() and getBookId(). The reason for that was 
+to avoid having to go over the book list every time I wanted to return 
+its ID (which is determined by its index in the list).
+
+Patron: again, mostly followed the instructions. Similarly to Book, 
+and for the same reason, I added the field patronId(int) and the 
+appropriate set and get methods. Also I added the field 
+borrowedBooks(int) and the appropriate set and get methods so I could 
+keep track of every patron's amount of borrowed books.
+
+Library: added the checkBook() method to check whether or not a book
+already appears in the library. In terms of fields, I added bookId(int)
+and patronId(int), both of which are set to 0 by default. They serve as 
+counters for the ID of every new member/book, as in: the first 
+book/patron will have the ID of 0, next 1, then 2 and so on.
+The books and patrons themselves are stored in bookList[] and 
+patronList[] respectively, with every book/patron being assigned the ID
+of its index.
+
+=============================
+=  Implementation details   =
+=============================
+In the library class I chose to create two different arrays: one 
+containing Book objects and the other Patron objects. Then upon 
+adding an element to a list I chose to assign their ID based on their 
+index in the list, since by doing that I avoid accidentally assigning 
+the same ID to different books/patrons.
+

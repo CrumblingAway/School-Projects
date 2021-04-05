@@ -1,0 +1,114 @@
+kublakhan
+
+=============================
+=      File description     =
+=============================
+
+1) SimpleHashSet.java
+2) OpenHashSet.java
+3) ClosedHashSet.java
+4) CollectionFacadeSet.java
+5) SimpleSetPerformanceAnalyzer.java
+
+=============================
+=          Design           =
+=============================
+
+1) SimpleHashSet
+
+- Added SHRINK/GROW_FACTOR to refer to resizing the sets.
+- Added fields high/lowCap, ownCap and size as those fields were
+present in both Open and Closed hash sets.
+- Clamp simply performs the bitwise-AND operation on the supplied index.
+The indices were calculated individually by Open/ClosedHashSet.
+
+The rest is straightforward and according to the instructions.
+
+2) OpenHashSet
+
+The table itself is an array of wrapper objects, named WrapperObject.
+They contain a field for a linked list, which stores the actual values
+of the set. For convenience I added public methods that work with said
+field instead of having to manually retrieve the linked list every time.
+
+Appart from add, delete, contains and rehash the methods are very 
+straightforward and simple. 
+
+Add: checks if newValue already appears, assigns an index, places 
+newValue and resizes if need be.
+Delete: same as add, except it removes toDelete from the linked list at
+the index it calculated.
+Contains: since linked lists already have a contains method I simply 
+calculated the index of searchVal and checked the linked list of that 
+WrapperObject, since this is the only place searchVal can appear.
+Rehash: creates a new array of WrapperObjects, the size is determined by
+the resizeFactor argument, which is supplied through add/delete since 
+that's where we check for the load factor. It then adds all the items
+from the original set to the new one.
+
+3) ClosedHashSet
+
+This table is a String array. The way we keep track of cells from
+which we deleted the value is by a static field to which we reference
+all deleted cells. 
+
+Contains the additonal findIndex method, which calculates the index for
+an item. It's a helper function so I wouldn't have to write the formula
+every time.
+
+Add is also different. If in OpenHashSet we only had to calculate an
+index once, here it may take more attempts than that since we are not
+working with linked lists and every String has to appear in a seperate
+cell. For the same reason the contains and delete methods are also 
+different, but follow the same logic. 
+
+4) CollectionFacadeTest
+
+As specified, this is simply a facade class that allows us to group 
+together other types of existing data structures with our 
+Open/ClosedHashSet. It contains the same methods as in SimpleSet and
+has a field referencing the data structure that the class wraps. 
+
+5) SimpleSetPerformanceAnalyzer
+
+Contains a few private methods that help make the code more readable.
+The main body of the class is in the main method, where all relevant
+structures are created and whose run time is then tested. 
+
+=============================
+=  Implementation details   =
+=============================
+
+- data1 Open/Closed results:
+
+                Open      Closed
+           Add: 30873ms   95244ms
+          "hi": 19ns 	  25ns
+"-13170890158": 655318ns  2078822ns
+
+- Strengths/Weaknesses, comparison: 
+
+It's clear the the existing HashSet is much better than the other
+structures when it comes to searching for items. It's also has 
+excellent run time for the actual creation of the set.
+A close second is TreeSet. While its runtime is not quite as good as
+HashSet's it's still very fast, especially when compared to the 
+remaining three.
+OpenHashSet seems right about in the middle. It's certainly not as 
+fast as Tree/HashSet but is considerably faster than ClosedHashSet and
+LinkedList. I can't think of a reason to use linked list instead if I'm 
+looking to optimize searching for items in a set, as linked list seems
+to be better only at creating the actual set.
+ClosedHashSet runs much slower than OpenHashSet. At best in certain
+cases it is on par with it, but when it's not then the difference is big
+in favor of Open. 
+Linked list doesn't seem to be well suited for this function. I'd rather
+use any of the other alternatives as they are less time consuming.
+
+In conclusion I would probably use HashSet in cases where I need to 
+search for items quickly. It runs much faster than either of my
+implementations. Between my two sets I'd definitely choose 
+OpenHashSet, again because of the runtime.
+
+
+

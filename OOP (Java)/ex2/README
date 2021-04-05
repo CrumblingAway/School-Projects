@@ -1,0 +1,94 @@
+kublakhan
+
+=============================
+=      File description     =
+=============================
+SpaceShip: template for all spaceship classes.
+
+HumanShip: player controlled ship.
+
+AggressiveShip: ship that attacks closest ship.
+
+BasherShip: ship that rams closest ship.
+
+DrunkardShip: fires, turns and teleports at random.
+
+RainManShip: special ship, flies in a circle and fires endlessly.
+
+RunnerShip: ship that runs away from closest ship.
+
+SpaceShipFactory: creates ships according to commmand line.
+
+=============================
+=          Design           =
+=============================
+SpaceShipFactory: nothing special here, simply go over the args
+(a list of Strings) and using switch case create the ships, store
+them in an array, then return the array.
+
+The following two methods warrant seperate explanations:
+- doAction: this methods describes the behavior of every ship during a round, 
+so because every ship behaves differently I didn't see a point in writing
+anything in the SpaceShip class and left it empty. Instead I overrode the 
+method for every ship class.
+
+- getImage: there are five enemy ship classes to just one player ship, but 
+the ship images for those two groups are different, therefore, seeing as there
+are more enemies then players, it made sense to set getImage in SpaceShip to 
+return the enemy ship image and override the method in HumanShip.
+
+The ships:
+- SpaceShip: apart from the two methods above the instructions were 
+straightforward so I simply wrote them as specified. This is the parent class
+from which all other ships, both player and enemy, inherit their methods and 
+fields.
+
+- HumanShip: player controled ship, the only one whose doAction checks for 
+user input as it is the only one controled by the user. 
+
+- AggressiveShip: chases ships and fires when in range. As with all ships 
+the check for the closest ship is done using SpaceWars' getClosestShip 
+method, and it only fires when the closest ship is in its sights, which is
+checked using the Physics' angleTo method. To chase the ships it turns (-1 
+or 1) according to where the closest ship is.
+
+- BasherShip: chases ships and rams them. Also uses the getClosestShip method
+but instead of angleTo it uses the distanceFrom method and sets the field
+shield to true when the distance is less than 0.19. Chases the same way as 
+AggressiveShip.
+
+- DrunkardShip: behaves in a random fashion, like a drunkard would. I generate
+three random integers of varying ranges, and those determine whether or not 
+the ship shoots, turns or teleports. Other than that it has the exact same
+limitations as other ships.
+
+- RainManShip: the special ship. It flies around in a circle, accomplished 
+simply by using the turn method with the values true and -1, and shoots 
+endlessly. For that I set the shotTime to zero and its current energy to its
+max energy in the beginning of every round. 
+
+- RunnerShip: runs away from closest ship. I simply used the getClosestShip 
+and angleTo methods to find the angle to the closest ship and then turn the 
+ship the other way. 
+
+=============================
+=  Implementation details   =
+=============================
+- Extensibility: the current methods and fields are general in nature so 
+adding new features shouldn't be a problem and could utilize already
+existing attributes.
+
+- Modularity: all existing material can stand on its own and while connected
+to each other is not dependant on each other. 
+
+- Intuitiveness: the design is pretty straightforward for every method. The 
+names are clear and represent purpose and the code is commented so it shouldn't
+be hard to understand.
+
+- Class relationships: as stated all spaceship classes inherit from their 
+parent class SpaceShip, seeing as it is a template. SpaceWars itself creates
+instances of those classes using SpaceShipFactory. Every ship has to have
+an instance of the class SpaceShipPhysics (which itself extends the class
+Physics) to have access to many methods having to do with location, distance,
+angles, etc. 
+
